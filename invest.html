@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Invest in Loan #{{ loan.id }}</h1>
+<div class="bg-white p-6 rounded-lg shadow mb-4">
+    <h2 class="text-2xl font-semibold mb-2">Loan Details</h2>
+    <p class="mb-2">Amount: ${{ "%.2f"|format(loan.amount) }}</p>
+    <p class="mb-2">Interest Rate: {{ loan.interest_rate }}%</p>
+    <p class="mb-2">Term: {{ loan.term }} months</p>
+    <p class="mb-2">Funded: ${{ "%.2f"|format(loan.funded_amount) }} / ${{ "%.2f"|format(loan.amount) }}</p>
+</div>
+<form method="POST" class="bg-white p-6 rounded-lg shadow">
+    <div class="mb-4">
+        <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Investment Amount ($)</label>
+        <input type="number" step="0.01" name="amount" id="amount" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+    <div class="flex items-center justify-between">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Invest</button>
+    </div>
+</form>
+{% endblock %}

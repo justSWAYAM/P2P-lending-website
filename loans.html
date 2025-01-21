@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Open Loans</h1>
+{% if loans %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for loan in loans %}
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold mb-2">Loan #{{ loan.id }}</h2>
+                <p class="mb-2">Amount: ${{ "%.2f"|format(loan.amount) }}</p>
+                <p class="mb-2">Interest Rate: {{ loan.interest_rate }}%</p>
+                <p class="mb-2">Term: {{ loan.term }} months</p>
+                <p class="mb-2">Funded: ${{ "%.2f"|format(loan.funded_amount) }} / ${{ "%.2f"|format(loan.amount) }}</p>
+                <a href="{{ url_for('invest', loan_id=loan.id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-block mt-2">Invest</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>There are no open loans at the moment.</p>
+{% endif %}
+{% endblock %}
