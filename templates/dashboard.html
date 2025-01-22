@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-8">
+    <div class="glass-effect rounded-3xl p-8">
+        <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">Welcome, {{ user.username }}</h2>
+        <p class="text-xl text-gray-300 mt-4">Balance: ${{ "%.2f"|format(user.balance) }}</p>
+        <div class="mt-6">
+            <a href="{{ url_for('create_loan') }}" class="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 transition-colors inline-block">Create Loan</a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="glass-effect rounded-3xl p-8">
+            <h3 class="text-2xl font-semibold mb-6">Your Loans</h3>
+            {% if user.loans %}
+                <div class="space-y-4">
+                    {% for loan in user.loans %}
+                        <div class="glass-effect rounded-xl p-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold">${{ "%.2f"|format(loan.amount) }}</p>
+                                    <p class="text-gray-400">{{ loan.interest_rate }}% APR • {{ loan.term }} months</p>
+                                </div>
+                                <span class="text-blue-400">{{ loan.status }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-400">No active loans</p>
+            {% endif %}
+        </div>
+
+        <div class="glass-effect rounded-3xl p-8">
+            <h3 class="text-2xl font-semibold mb-6">Your Investments</h3>
+            {% if user.investments %}
+                <div class="space-y-4">
+                    {% for investment in user.investments %}
+                        <div class="glass-effect rounded-xl p-4">
+                            <div class="flex justify-between items-center">
+                                <p class="font-semibold">${{ "%.2f"|format(investment.amount) }}</p>
+                                <span class="text-blue-400">Loan #{{ investment.loan_id }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-400">No active investments</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusLend | P2P Lending Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-0 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl floating"></div>
+            <div class="absolute top-80 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl floating"></div>
+            <div class="absolute bottom-20 left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl floating"></div>
+        </div>
+    </div>
+
+    <nav class="glass-effect fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="{{ url_for('home') }}" class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">NexusLend</a>
+                <div class="flex space-x-8">
+                    {% if 'user_id' in session %}
+                        <a href="{{ url_for('dashboard') }}" class="hover:text-blue-400 transition-colors">Dashboard</a>
+                        <a href="{{ url_for('loans') }}" class="hover:text-blue-400 transition-colors">Loans</a>
+                        <a href="{{ url_for('logout') }}" class="hover:text-blue-400 transition-colors">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="hover:text-blue-400 transition-colors">Login</a>
+                        <a href="{{ url_for('register') }}" class="hover:text-blue-400 transition-colors">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32">
+        <div class="container mx-auto px-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="glass-effect mb-4 p-4 rounded-lg {% if category == 'success' %}text-green-400{% else %}text-red-400{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</body>
+</html>
+
+<!-- login.html -->

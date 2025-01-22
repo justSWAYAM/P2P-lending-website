@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-8">
+    <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">Available Loans</h1>
+    
+    {% if loans %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for loan in loans %}
+                <div class="glass-effect rounded-3xl p-6">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-2xl font-semibold">Loan #{{ loan.id }}</h2>
+                            <span class="text-blue-400">${{ "%.2f"|format(loan.amount) }}</span>
+                        </div>
+                        <div class="space-y-2 text-gray-300">
+                            <p>Interest Rate: {{ loan.interest_rate }}%</p>
+                            <p>Term: {{ loan.term }} months</p>
+                            <p>Progress: ${{ "%.2f"|format(loan.funded_amount) }} / ${{ "%.2f"|format(loan.amount) }}</p>
+                        </div>
+                        <div class="pt-4">
+                            <a href="{{ url_for('invest', loan_id=loan.id) }}" class="w-full px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 transition-colors inline-block text-center">Invest Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="glass-effect rounded-3xl p-8 text-center">
+            <p class="text-gray-400">No loans available at the moment</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
